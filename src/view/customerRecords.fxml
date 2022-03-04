@@ -7,27 +7,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="913.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customerRecordsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="913.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerRecordsController">
    <children>
-      <Label layoutX="397.0" layoutY="20.0" text="Customer Records">
+      <Label layoutX="393.0" layoutY="49.0" text="Customer Records">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView layoutX="15.0" layoutY="148.0" prefHeight="200.0" prefWidth="882.0">
+      <TableView fx:id="customertableview" layoutX="15.0" layoutY="148.0" prefHeight="261.0" prefWidth="882.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Customer ID" />
-          <TableColumn prefWidth="112.00003051757812" text="Name" />
-            <TableColumn prefWidth="160.7999725341797" text="Address" />
-            <TableColumn minWidth="7.20001220703125" prefWidth="116.0" text="Country" />
-            <TableColumn minWidth="7.20001220703125" prefWidth="114.39996337890625" text="First-level division" />
-            <TableColumn prefWidth="182.39996337890625" text="Postal Code" />
-            <TableColumn prefWidth="120.00003662109373" text="Phone number" />
+          <TableColumn fx:id="customeridcol" prefWidth="75.0" text="Customer ID" />
+          <TableColumn fx:id="namecol" prefWidth="112.00003051757812" text="Name" />
+            <TableColumn fx:id="addresscol" prefWidth="160.7999725341797" text="Address" />
+            <TableColumn fx:id="custcountrycol" minWidth="7.20001220703125" prefWidth="116.0" text="Country" />
+            <TableColumn fx:id="firstleveldivcol" minWidth="7.20001220703125" prefWidth="114.39996337890625" text="First-level division" />
+            <TableColumn fx:id="postalcol" prefWidth="182.39996337890625" text="Postal Code" />
+            <TableColumn fx:id="phonenumcol" prefWidth="120.00003662109373" text="Phone number" />
         </columns>
       </TableView>
-      <Button layoutX="577.0" layoutY="433.0" mnemonicParsing="false" text="Add a new customer" />
-      <Button layoutX="577.0" layoutY="479.0" mnemonicParsing="false" text="Update selected customer" />
-      <Button layoutX="577.0" layoutY="565.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="addcustomerbtn" layoutX="577.0" layoutY="433.0" mnemonicParsing="false" onAction="#clickaddcustomerbtn" text="Add a new customer" />
+      <Button fx:id="updatecustomerbtn" layoutX="577.0" layoutY="479.0" mnemonicParsing="false" onAction="#clickupdatecustbtn" text="Update selected customer" />
+      <Button fx:id="cancelbtn" layoutX="577.0" layoutY="565.0" mnemonicParsing="false" onAction="#clickcancelbtn" text="Cancel" />
       <Button layoutX="577.0" layoutY="524.0" mnemonicParsing="false" text="Delete selected customer" />
    </children>
 </AnchorPane>

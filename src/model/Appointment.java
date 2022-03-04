@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class appointment {
+public class Appointment {
     private int appointmentId;
     private String title;
     private String description;
@@ -15,7 +15,7 @@ public class appointment {
     private int contactId;
 
 
-    public appointment(int appointmentId, String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId){
+    public Appointment(int appointmentId, String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId){
         this.appointmentId=appointmentId;
         this.title=title;
         this.description=description;

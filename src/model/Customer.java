@@ -1,15 +1,22 @@
 package model;
 
-public class customer {
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class Customer {
     private int customerId;
     private String customerName;
     private String address;
     private String postalCode;
     private String phoneNumber;
     private int divisionId;
+    private String country;
 
-//constructor
-    public customer(int customerId, String customerName, String address, String postalCode, String phoneNumber, int divisionId) {
+
+
+
+    //constructor
+    public Customer(int customerId, String customerName, String address, String postalCode, String phoneNumber, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -17,6 +24,18 @@ public class customer {
         this.phoneNumber = phoneNumber;
         this.divisionId = divisionId;
     }
+
+    //constructor
+    public Customer(int customerId, String customerName, String address, String postalCode, String phoneNumber, int divisionId, String country) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.divisionId = divisionId;
+        this.country = country;
+    }
+
 
     //setters and getters
 
@@ -66,5 +85,13 @@ public class customer {
 
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

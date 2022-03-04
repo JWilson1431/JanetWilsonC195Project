@@ -1,18 +1,28 @@
 package model;
 
-public class firstLevelDivision {
+public class FirstLevelDivision {
     private int divisionId;
     private String division;
     private int countryId;
 
     //constructor
 
-    public firstLevelDivision(int divisionId, String division, int countryId) {
+    public FirstLevelDivision(int divisionId, String division, int countryId) {
         this.divisionId = divisionId;
         this.division = division;
         this.countryId = countryId;
     }
 
+    //constructor
+    public FirstLevelDivision(String division){
+        this.division = division;
+    }
+
+    //override string to string
+    @Override
+    public String toString(){
+        return(division);
+    }
     //setters and getters
 
     public int getDivisionId() {

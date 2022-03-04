@@ -1,6 +1,7 @@
 package controller;
 
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +17,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static DAO.helper.checkCredentials;
+import static DAO.Helper.checkCredentials;
 
-    public class logInFormController implements Initializable {
+    public class LogInFormController implements Initializable {
         Stage stage;
         Parent scene;
 
@@ -76,6 +77,12 @@ import static DAO.helper.checkCredentials;
                 alert.showAndWait();
             }
         }
+  //exits application if exit is clicked
+  @FXML
+  void clickExit(ActionEvent event) {
+      System.exit(0);
+
+  }
   @Override
         public void initialize(URL location, ResourceBundle rb){
             rb = ResourceBundle.getBundle("resources/Language", Locale.getDefault());
