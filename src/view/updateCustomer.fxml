@@ -24,8 +24,8 @@
       <TextField fx:id="addresstxt" layoutX="216.0" layoutY="169.0" />
       <TextField fx:id="postaltxt" layoutX="217.0" layoutY="220.0" />
       <TextField fx:id="phonetxt" layoutX="218.0" layoutY="264.0" />
-      <Button fx:id="savebtn" layoutX="580.0" layoutY="453.0" mnemonicParsing="false" text="Save" />
-      <Button fx:id="cancelbtn" layoutX="649.0" layoutY="453.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="savebtn" layoutX="580.0" layoutY="453.0" mnemonicParsing="false" onAction="#clickSave" text="Save" />
+      <Button fx:id="cancelbtn" layoutX="649.0" layoutY="453.0" mnemonicParsing="false" onAction="#ClickCancel" text="Cancel" />
       <ComboBox fx:id="countrycombo" layoutX="218.0" layoutY="313.0" prefWidth="150.0" />
       <ComboBox fx:id="firstlevelcombo" layoutX="218.0" layoutY="364.0" prefWidth="150.0" />
       <Label layoutX="107.0" layoutY="317.0" text="Country" />

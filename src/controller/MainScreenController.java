@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.DBConnection;
+import DAO.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -68,6 +69,17 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
+    public void setAllCustomers(ObservableList<Customer> listOfCustomers){
+        customeridcolumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customernamecolumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customeraddresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerpostalcol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerphonecol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        customerdividcol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
+
+        customertableview.setItems(listOfCustomers);
+    }
+
 
 
     @FXML
@@ -79,38 +91,14 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     //use database to populate customer data in table
-try {
-    String sql = "SELECT * FROM customers";
 
-    PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
-    ResultSet rs = ps.executeQuery();
+        try {
+            setAllCustomers(Helper.getAllCustomers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-    while (rs.next()) {
-        int customerID = rs.getInt(1);
-        String customerName = rs.getString(2);
-        String address = rs.getString(3);
-        String postalCode = rs.getString(4);
-        String phone = rs.getString(5);
-        int divisionId = rs.getInt(10);
-
-        allCustomers.add(new Customer(customerID, customerName, address, postalCode, phone, divisionId));
 
     }
-
-    customeridcolumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-    customernamecolumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-    customeraddresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
-    customerpostalcol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-    customerphonecol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-    customerdividcol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
-
-
-    customertableview.setItems(allCustomers);
-}
-catch(SQLException e){
-    System.out.println("wtf");
-}
-        }
     }
 

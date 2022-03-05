@@ -28,6 +28,6 @@
       <Button fx:id="addcustomerbtn" layoutX="577.0" layoutY="433.0" mnemonicParsing="false" onAction="#clickaddcustomerbtn" text="Add a new customer" />
       <Button fx:id="updatecustomerbtn" layoutX="577.0" layoutY="479.0" mnemonicParsing="false" onAction="#clickupdatecustbtn" text="Update selected customer" />
       <Button fx:id="cancelbtn" layoutX="577.0" layoutY="565.0" mnemonicParsing="false" onAction="#clickcancelbtn" text="Cancel" />
-      <Button layoutX="577.0" layoutY="524.0" mnemonicParsing="false" text="Delete selected customer" />
+      <Button fx:id="deleteBtn" layoutX="577.0" layoutY="524.0" mnemonicParsing="false" onAction="#clickDeleteBtn" text="Delete selected customer" />
    </children>
 </AnchorPane>

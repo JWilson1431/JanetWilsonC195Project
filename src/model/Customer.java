@@ -12,7 +12,9 @@ public class Customer {
     private int divisionId;
     private String country;
 
-
+    //default constructor
+    public Customer(){
+    }
 
 
     //constructor

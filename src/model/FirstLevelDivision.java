@@ -1,7 +1,7 @@
 package model;
 
 public class FirstLevelDivision {
-    private int divisionId;
+    private static int divisionId;
     private String division;
     private int countryId;
 
@@ -14,9 +14,9 @@ public class FirstLevelDivision {
     }
 
     //constructor
-    public FirstLevelDivision(String division){
-        this.division = division;
-    }
+    //public FirstLevelDivision(String division){
+    //    this.division = division;
+    //}
 
     //override string to string
     @Override
