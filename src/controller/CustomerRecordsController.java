@@ -10,19 +10,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerRecordsController implements Initializable {
@@ -31,39 +29,36 @@ public class CustomerRecordsController implements Initializable {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
+    //buttons
     @FXML
     private Button addcustomerbtn;
-
     @FXML
     private Button cancelbtn;
-
     @FXML
     private Button updatecustomerbtn;
 
-    @FXML
-    private TableColumn<Customer, String> addresscol;
 
-    @FXML
-    private TableColumn<Customer, Integer> customeridcol;
-
+    //customer table view
     @FXML
     private TableView<Customer> customertableview;
 
+    //customer table columns
+    @FXML
+    private TableColumn<Customer, String> addresscol;
+    @FXML
+    private TableColumn<Customer, Integer> customeridcol;
     @FXML
     private TableColumn<Customer, String> namecol;
-
     @FXML
     private TableColumn<Customer, String> phonenumcol;
-
     @FXML
     private TableColumn<Customer, String> postalcol;
-
     @FXML
     private TableColumn<Customer, String> custcountrycol;
-
     @FXML
     private TableColumn<Customer, Integer> firstleveldivcol;
 
+    //method to populate the customer table with a list of customers
     public void setAllCustomers(ObservableList<Customer> listOfCustomers){
         customeridcol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         namecol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -75,27 +70,27 @@ public class CustomerRecordsController implements Initializable {
         customertableview.setItems(listOfCustomers);
     }
 
-
+    //takes the user to the add customer page if they click the add customer button
     @FXML
     void clickaddcustomerbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/addCustomer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
-
     }
 
+    //takes the user back to the main screen if they click the cancel button
     @FXML
     void clickcancelbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
-
     }
 
+    //takes user to the update customer page if they click the update customer button
     @FXML
-    void clickupdatecustbtn(ActionEvent event) throws IOException {
+    void clickupdatecustbtn(ActionEvent event) throws IOException, SQLException {
         if(customertableview.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Customer not selected");
@@ -114,11 +109,12 @@ public class CustomerRecordsController implements Initializable {
             stage.setScene(new Scene(scene));
             stage.show();
         }
-
     }
 
+    //deletes a selected customer upon confirming the user wants to delete it
     @FXML
     void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
+        //checks to see if a customer is selected
         if(customertableview.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Customer not selected");
@@ -126,13 +122,24 @@ public class CustomerRecordsController implements Initializable {
             alert.showAndWait();
         }
         else{
+            //confirms the user wants to delete the customer
             Customer customerToDelete = customertableview.getSelectionModel().getSelectedItem();
             int customerToDeleteId = customerToDelete.getCustomerId();
             int rowsAffected = Helper.deleteCustomer(customerToDeleteId);
             if(rowsAffected > 0) {
-                System.out.println("Delete successful");
-                allCustomers.remove(customerToDelete);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete this customer, do you want to proceed?");
+                    Optional<ButtonType> result = alert.showAndWait();
 
+                 //upon confirmation that the user wants to delete the customer, deletes them
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    allCustomers.remove(customerToDelete);
+                        Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                        alert2.setTitle("Customer deleted");
+                        alert2.setContentText("Customer was successfully deleted");
+                        alert2.showAndWait();
+                    }
+
+                //refreshes the page once customer is deleted
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/view/customerRecords.fxml"));
                 stage.setScene(new Scene(scene));

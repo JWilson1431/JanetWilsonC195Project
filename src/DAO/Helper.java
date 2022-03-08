@@ -2,6 +2,8 @@ package DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Appointment;
+import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
 
@@ -9,8 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 public class Helper {
+    //ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList();
 
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
     ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
@@ -27,6 +31,8 @@ public class Helper {
             String postalCode = rs.getString(4);
             String phone = rs.getString(5);
             int divisionId = rs.getInt(10);
+          //  String country = rs.getString("12");
+
 
             allCustomers.add(new Customer(customerID, customerName, address, postalCode, phone, divisionId));
         }
@@ -81,6 +87,41 @@ public class Helper {
 
     }
 
+    public static ObservableList<Country> getAllCountries() throws SQLException {
+        ObservableList<Country> countries = FXCollections.observableArrayList();
+
+        String sql = "SELECT Country, Country_ID FROM countries";
+
+
+        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String countryName = rs.getString(1);
+            int countryId = rs.getInt(2);
+            Country country1 = new Country(countryId, countryName);
+            countries.add(country1);
+        }
+
+        return countries;
+    }
+    public static ObservableList<FirstLevelDivision> getDivision(int countryID) throws SQLException {
+         ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = ?";
+        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
+        ps.setInt(1, countryID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String division = rs.getString(2);
+            int divisionId = rs.getInt(1);
+            int countryId = rs.getInt(7);
+            FirstLevelDivision division1 = new FirstLevelDivision(divisionId,division,countryID);
+            divisions.add(division1);
+        }
+        return divisions;
+    }
+
 
         //method to add a customer to the customer table
     public static int addCustomer(String name, String address, String postalCode, String phoneNum, int divId ) throws SQLException {
@@ -100,6 +141,32 @@ public class Helper {
 
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
+    }
+
+    public static ObservableList<Appointment> getAllAppointments() throws SQLException {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM appointments";
+
+        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int appointmentId = rs.getInt(1);
+            String title = rs.getString(2);
+            String description = rs.getString(3);
+            String location= rs.getString(4);
+            String type = rs.getString(5);
+            Date start = rs.getDate(6);
+            Date end = rs.getDate(7);
+            int customerId = rs.getInt(12);
+            int userId = rs.getInt(13);
+            int contactId = rs.getInt(14);
+
+
+            allAppointments.add(new Appointment(appointmentId,title,description,location,type,start, end, customerId,userId,contactId));
+        }
+        return allAppointments;
     }
 
     }

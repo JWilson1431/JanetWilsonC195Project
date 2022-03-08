@@ -14,12 +14,11 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView fx:id="customertableview" layoutX="15.0" layoutY="148.0" prefHeight="261.0" prefWidth="882.0">
+      <TableView fx:id="customertableview" layoutX="15.0" layoutY="148.0" prefHeight="262.0" prefWidth="765.0">
         <columns>
           <TableColumn fx:id="customeridcol" prefWidth="75.0" text="Customer ID" />
           <TableColumn fx:id="namecol" prefWidth="112.00003051757812" text="Name" />
             <TableColumn fx:id="addresscol" prefWidth="160.7999725341797" text="Address" />
-            <TableColumn fx:id="custcountrycol" minWidth="7.20001220703125" prefWidth="116.0" text="Country" />
             <TableColumn fx:id="firstleveldivcol" minWidth="7.20001220703125" prefWidth="114.39996337890625" text="First-level division" />
             <TableColumn fx:id="postalcol" prefWidth="182.39996337890625" text="Postal Code" />
             <TableColumn fx:id="phonenumcol" prefWidth="120.00003662109373" text="Phone number" />

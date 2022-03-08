@@ -32,37 +32,33 @@ public class AddCustomerController implements Initializable {
 
     //public static ObservableList<String> allCountries = FXCollections.observableArrayList();
 
-
+    //buttons
+    @FXML
+    private Button savebtn;
     @FXML
     private Button cancelbtn;
 
+    //text fields
     @FXML
     private TextField customeridtxt;
-
     @FXML
     private TextField customernametxt;
-
     @FXML
     private TextField phonetxt;
-
     @FXML
     private TextField postaltxt;
-
-    @FXML
-    private Button savebtn;
-
-
     @FXML
     private TextField addresstxt;
 
+    //combo boxes
     @FXML
     private ComboBox<Country> countrycombo;
-
     @FXML
     private ComboBox<FirstLevelDivision> firstLevelCombo;
 
-    ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList();
+    //ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList();
 
+    //when the user clicks save, the new customer is added to the database and the table
     @FXML
     void clickSavebtn(ActionEvent event) throws SQLException, IOException {
         String customerName = customernametxt.getText();
@@ -93,58 +89,23 @@ public class AddCustomerController implements Initializable {
 
     }
 
+    //takes the user to the main screen if they click the cancel button
     @FXML
     void clickcancelbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
-
-    }
-    public  ObservableList<Country> getAllCountries() throws SQLException {
-         ObservableList<Country> countries = FXCollections.observableArrayList();
-
-        String sql = "SELECT Country, Country_ID FROM countries";
-
-
-        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            String countryName = rs.getString(1);
-            int countryId = rs.getInt(2);
-            Country country1 = new Country(countryId, countryName);
-            countries.add(country1);
-        }
-
-        return countries;
-    }
-    public ObservableList<FirstLevelDivision> getDivision(int countryID) throws SQLException {
-
-
-        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = ?";
-        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
-        ps.setInt(1, countryID);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String division = rs.getString(2);
-            int divisionId = rs.getInt(1);
-            int countryId = rs.getInt(7);
-            FirstLevelDivision division1 = new FirstLevelDivision(divisionId,division,countryID);
-            divisions.add(division1);
-        }
-        return divisions;
     }
 
 
-
-
+    //sets the list of first level divisions once a country is chosen
     @FXML
     void chooseCountry(ActionEvent event) throws SQLException {
         firstLevelCombo.getItems().clear();
       int countryId= countrycombo.getSelectionModel().getSelectedItem().getCountryId();
-      getDivision(countryId);
-      firstLevelCombo.setItems(getDivision(countryId));
+      Helper.getDivision(countryId);
+      firstLevelCombo.setItems(Helper.getDivision(countryId));
     }
 
 
@@ -152,7 +113,7 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try{
-            countrycombo.setItems(getAllCountries());
+            countrycombo.setItems(Helper.getAllCountries());
 
         }
     catch(SQLException e){

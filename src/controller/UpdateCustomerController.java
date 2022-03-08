@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,9 +19,11 @@ import javafx.scene.control.TextField;
 import model.FirstLevelDivision;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class UpdateCustomerController {
+public class UpdateCustomerController implements Initializable {
     Stage stage;
     Parent scene;
 
@@ -96,13 +99,14 @@ public class UpdateCustomerController {
 
 
 
-    public void sendCustomer(Customer customer1) {
+    public void sendCustomer(Customer customer1) throws SQLException {
         customeridtxt.setText(String.valueOf(customer1.getCustomerId()));
         custnametxt.setText(customer1.getCustomerName());
         addresstxt.setText(String.valueOf(customer1.getAddress()));
         postaltxt.setText(String.valueOf(customer1.getPostalCode()));
         phonetxt.setText(String.valueOf(customer1.getPhoneNumber()));
-        //for(FirstLevelDivision division:)
+        countrycombo.setItems(Helper.getAllCountries());
+        //countrycombo.getSelectionModel().select(customer1.getCountry());
 
 
     }
@@ -110,4 +114,24 @@ public class UpdateCustomerController {
     public ObservableList<Country> getAllCountries() {
         return allCountries;
     }
+
+    @FXML
+    void chooseCountry(ActionEvent event) throws SQLException {
+        firstlevelcombo.getItems().clear();
+        int countryId= countrycombo.getSelectionModel().getSelectedItem().getCountryId();
+        Helper.getDivision(countryId);
+        firstlevelcombo.setItems(Helper.getDivision(countryId));
+    }
+
+
+@Override
+public void initialize(URL url, ResourceBundle rb) {
+    try{
+        countrycombo.setItems(Helper.getAllCountries());
+
+    }
+    catch(SQLException e){
+        System.out.println("error");
+    }
+}
 }
