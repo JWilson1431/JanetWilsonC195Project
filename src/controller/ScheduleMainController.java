@@ -1,20 +1,29 @@
 package controller;
 
+import DAO.Helper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class ScheduleMainController {
+public class ScheduleMainController implements Initializable {
     Stage stage;
     Parent scene;
 
@@ -28,6 +37,10 @@ public class ScheduleMainController {
     @FXML
     private Button updateApptBtn;
 
+    //schedule table view
+    @FXML
+    private TableView<Appointment> scheduleTableView;
+
     //schedule table columns
     @FXML
     private TableColumn<Appointment, Integer> apptIdCol;
@@ -38,11 +51,11 @@ public class ScheduleMainController {
     @FXML
     private TableColumn<Appointment, String> descriptionCol;
     @FXML
-    private TableColumn<Appointment, Date> endDateTimeCol;
+    private TableColumn<Appointment, ZonedDateTime> endDateTimeCol;
     @FXML
     private TableColumn<Appointment, String> locationCol;
     @FXML
-    private TableColumn<Appointment, Date> startDateTimeCol;
+    private TableColumn<Appointment, ZonedDateTime> startDateTimeCol;
     @FXML
     private TableColumn<Appointment, String> titleIdCol;
     @FXML
@@ -58,6 +71,7 @@ public class ScheduleMainController {
     @FXML
     private RadioButton viewWeekRbtn;
 
+    private static ObservableList<Customer> allAppts = FXCollections.observableArrayList();
 
     //when add appointment button is clicked, the user is taken to the add appointment page
     @FXML
@@ -70,17 +84,68 @@ public class ScheduleMainController {
 
     //when delete appointment is clicked, the appointment is deleted after confirmation the user wants to delete
     @FXML
-    void clickDeleteBtn(ActionEvent event) {
+    void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
+        //checks to see if a customer is selected
+        if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Appointment not selected");
+            alert.setContentText("An appointment was not selected, please select an appointment and try again.");
+            alert.showAndWait();
+        }
+        else{
+            //confirms the user wants to delete the customer
+            Appointment apptToDelete = scheduleTableView.getSelectionModel().getSelectedItem();
+            int customerToDeleteId = apptToDelete.getAppointmentId();
+            int rowsAffected = Helper.deleteAppt(customerToDeleteId);
+            if(rowsAffected > 0) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete this appointment, do you want to proceed?");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                //upon confirmation that the user wants to delete the customer, deletes them
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    allAppts.remove(apptToDelete);
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                    alert2.setTitle("Appointment deleted");
+                    alert2.setContentText("Appointment was successfully deleted");
+                    alert2.showAndWait();
+                }
+
+                //refreshes the page once customer is deleted
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+            else{
+                System.out.println("Delete Failed");
+            }
+        }
 
     }
 
+
+
     //when update appointment is clicked, the user is taken to the update appointment page
     @FXML
-    void clickUpdateAppt(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/updateAppointment.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+    void clickUpdateAppt(ActionEvent event) throws IOException, SQLException {
+        if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Appointment not selected");
+            alert.setContentText("An appointment was not selected, please select an appointment and try again");
+            alert.showAndWait();
+        }
+        else{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/updateAppointment.fxml"));
+            loader.load();
+            UpdateAppointmentController UCC = loader.getController();
+            UCC.sendAppointment(scheduleTableView.getSelectionModel().getSelectedItem());
+
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     //when the view by month radiobutton is chosen, the user is taken to the view by month page
@@ -104,6 +169,30 @@ public class ScheduleMainController {
 
     }
 
+    public void setAllAppointments(ObservableList<Appointment> listOfAppointments) {
+        apptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleIdCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
+        scheduleTableView.setItems(listOfAppointments);
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb){
+        try {
+            setAllAppointments(Helper.getAllAppointments());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
 }
 

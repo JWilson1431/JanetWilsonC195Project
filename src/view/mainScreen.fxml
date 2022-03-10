@@ -35,7 +35,7 @@
             <TableColumn fx:id="typeCol" prefWidth="60.79998779296875" text="Type" />
             <TableColumn fx:id="startCol" prefWidth="52.79998779296875" text="Start" />
             <TableColumn fx:id="endCol" prefWidth="51.199981689453125" text="End" />
-            <TableColumn fx:id="customerIdCol" prefWidth="75.20001220703125" text="Customer ID" />
+            <TableColumn fx:id="scheduleCustIdCol" prefWidth="75.20001220703125" text="Customer ID" />
             <TableColumn fx:id="userIdCol" prefWidth="59.20001220703125" text="User ID" />
         </columns>
       </TableView>

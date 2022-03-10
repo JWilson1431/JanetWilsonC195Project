@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -23,29 +24,32 @@ import static DAO.Helper.checkCredentials;
         Stage stage;
         Parent scene;
 
+        //labels
         @FXML
         private Label enterPasswordlbl;
-
         @FXML
         private Label enterUserIdlbl;
-
         @FXML
-        private Button loginbtn;
-
-        @FXML
-        private PasswordField passwordtxt;
-
+        private Label zonelbl;
         @FXML
         private Label pleaseloginlbl;
-
         @FXML
         private Label schedulingsoftwarelbl;
 
+        //buttons
+        @FXML
+        private Button loginbtn;
+        @FXML
+        private Button exitbtn;
+
+        //password field
+        @FXML
+        private PasswordField passwordtxt;
+        //username textfield
         @FXML
         private TextField usernametxt;
 
-        @FXML
-        private Button exitbtn;
+
 
 
 
@@ -58,6 +62,8 @@ import static DAO.Helper.checkCredentials;
             boolean correctLogIn = checkCredentials(userName, password);
 
             if (correctLogIn) {
+
+
 
                     stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
@@ -92,6 +98,8 @@ import static DAO.Helper.checkCredentials;
             schedulingsoftwarelbl.setText(rb.getString("schedulingsoftwarelbl"));
             loginbtn.setText(rb.getString("loginbtn"));
             exitbtn.setText(rb.getString("exitbtn"));
+
+            zonelbl.setText(ZoneId.systemDefault().toString());
 
 
   }

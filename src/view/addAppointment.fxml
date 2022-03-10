@@ -16,7 +16,7 @@
          </font>
       </Label>
       <Label layoutX="65.0" layoutY="78.0" text="Appointment ID" />
-      <TextField fx:id="apptIdTxt" layoutX="194.0" layoutY="74.0" />
+      <TextField fx:id="apptIdTxt" editable="false" layoutX="194.0" layoutY="74.0" promptText="Auto Generated" />
       <TextField fx:id="titleTxt" layoutX="195.0" layoutY="116.0" />
       <TextField fx:id="descriptionTxt" layoutX="195.0" layoutY="162.0" />
       <TextField fx:id="locationTxt" layoutX="194.0" layoutY="205.0" />
@@ -26,16 +26,18 @@
       <Label layoutX="66.0" layoutY="252.0" text="Contact" />
       <Label layoutX="66.0" layoutY="295.0" text="Type" />
       <ComboBox fx:id="typeCombo" layoutX="194.0" layoutY="291.0" prefWidth="150.0" />
-      <DatePicker layoutX="195.0" layoutY="339.0" />
-      <DatePicker layoutX="195.0" layoutY="383.0" />
-      <Label layoutX="66.0" layoutY="343.0" text="Start date and time" />
-      <Label layoutX="66.0" layoutY="387.0" text="End date and time" />
-      <Label layoutX="65.0" layoutY="430.0" text="Customer ID" />
-      <Label layoutX="67.0" layoutY="472.0" text="User ID" />
-      <TextField fx:id="customerIdTxt" layoutX="194.0" layoutY="426.0" />
-      <TextField fx:id="userIdTxt" layoutX="196.0" layoutY="468.0" />
+      <DatePicker fx:id="startDatePicker" layoutX="195.0" layoutY="339.0" />
+      <Label layoutX="66.0" layoutY="343.0" text="Date" />
+      <Label layoutX="66.0" layoutY="387.0" text="Start Time" />
+      <Label layoutX="68.0" layoutY="458.0" text="Customer " />
+      <Label layoutX="68.0" layoutY="493.0" text="User " />
       <Button fx:id="saveBtn" layoutX="553.0" layoutY="261.0" mnemonicParsing="false" onAction="#clickSave" text="Save" />
       <Button fx:id="cancelBtn" layoutX="660.0" layoutY="261.0" mnemonicParsing="false" onAction="#clickCancel" text="Cancel" />
-      <ComboBox fx:id="contactCombo" layoutX="196.0" layoutY="249.0" prefWidth="150.0" />
+      <ComboBox fx:id="contactCombo" layoutX="194.0" layoutY="248.0" prefWidth="150.0" />
+      <ComboBox fx:id="startTimeCombo" layoutX="194.0" layoutY="383.0" prefWidth="150.0" />
+      <ComboBox fx:id="endTimeCombo" layoutX="194.0" layoutY="420.0" prefWidth="150.0" />
+      <Label layoutX="68.0" layoutY="424.0" text="End Time" />
+      <ComboBox fx:id="customerIdCombo" layoutX="194.0" layoutY="454.0" prefWidth="150.0" />
+      <ComboBox fx:id="userIdCombo" layoutX="194.0" layoutY="489.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

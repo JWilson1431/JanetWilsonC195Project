@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Appointment {
@@ -8,24 +10,23 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
+    private Timestamp start;
+    private Timestamp end;
     private int customerId;
     private int userId;
     private int contactId;
 
-
-    public Appointment(int appointmentId, String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId){
-        this.appointmentId=appointmentId;
-        this.title=title;
-        this.description=description;
-        this.location=location;
-        this.type=type;
-        this.start=start;
-        this.end=end;
-        this.customerId=customerId;
-        this.userId=userId;
-        this.contactId=contactId;
+    public Appointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) {
+        this.appointmentId = appointmentId;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.start = start;
+        this.end = end;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.contactId = contactId;
     }
 
     //Setters and getters created
@@ -69,19 +70,19 @@ public class Appointment {
         this.type = type;
     }
 
-    public Date getStart() {
+    public Timestamp getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Timestamp start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 

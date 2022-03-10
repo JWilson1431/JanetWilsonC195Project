@@ -5,6 +5,12 @@ public class User {
     private String userName;
     private String password;
 
+    //overrides string to string
+    @Override
+    public String toString(){
+        return(userName);
+    }
+
     //constructor
 
     public User(int userId, String userName, String password) {

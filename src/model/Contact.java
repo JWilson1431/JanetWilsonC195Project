@@ -1,9 +1,16 @@
 package model;
 
 public class Contact {
+
     private int contactId;
     private String contactName;
     private String email;
+
+    //override string to string
+    @Override
+    public String toString(){
+        return(contactName);
+    }
 
 
     public int getContactId() {

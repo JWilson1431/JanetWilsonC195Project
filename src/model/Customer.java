@@ -12,6 +12,12 @@ public class Customer {
     private int divisionId;
     private String country;
 
+    //override string to string
+    @Override
+    public String toString(){
+        return(customerName);
+    }
+
     //default constructor
     public Customer(){
     }

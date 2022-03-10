@@ -5,6 +5,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -15,7 +16,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TableView layoutX="24.0" layoutY="143.0" prefHeight="200.0" prefWidth="820.0">
+      <TableView fx:id="scheduleTableView" layoutX="24.0" layoutY="143.0" prefHeight="200.0" prefWidth="820.0">
         <columns>
           <TableColumn fx:id="apptIdCol" prefWidth="98.39999580383301" text="Appointment ID" />
           <TableColumn fx:id="titleIdCol" prefWidth="67.99999237060547" text="Title" />
@@ -29,9 +30,12 @@
             <TableColumn fx:id="userIdCol" prefWidth="68.800048828125" text="User ID" />
         </columns>
       </TableView>
-      <RadioButton fx:id="viewWeekRbtn" layoutX="76.0" layoutY="422.0" mnemonicParsing="false" onAction="#clickViewWeekRbtn" text="View schedule by week" />
-      <RadioButton fx:id="viewMonthRbtn" layoutX="77.0" layoutY="460.0" mnemonicParsing="false" onAction="#clickViewMonthRbtn" text="View schedule by month" />
-      <RadioButton fx:id="viewAllApptRbtn" layoutX="76.0" layoutY="383.0" mnemonicParsing="false" text="View all appointments" />
+      <RadioButton fx:id="viewWeekRbtn" layoutX="76.0" layoutY="422.0" mnemonicParsing="false" onAction="#clickViewWeekRbtn" text="View schedule by week">
+         <toggleGroup>
+            <ToggleGroup fx:id="toggle1" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="viewMonthRbtn" layoutX="77.0" layoutY="460.0" mnemonicParsing="false" onAction="#clickViewMonthRbtn" text="View schedule by month" toggleGroup="$toggle1" />
+      <RadioButton fx:id="viewAllApptRbtn" layoutX="76.0" layoutY="383.0" mnemonicParsing="false" selected="true" text="View all appointments" toggleGroup="$toggle1" />
       <Button fx:id="addApptBtn" layoutX="519.0" layoutY="379.0" mnemonicParsing="false" onAction="#clickAddAppt" text="Add an appointment" />
       <Button fx:id="updateApptBtn" layoutX="519.0" layoutY="427.0" mnemonicParsing="false" onAction="#clickUpdateAppt" text="Update selected appointment" />
       <Button fx:id="deleteApptBtn" layoutX="519.0" layoutY="478.0" mnemonicParsing="false" onAction="#clickDeleteBtn" text="Delete selected appointment" />

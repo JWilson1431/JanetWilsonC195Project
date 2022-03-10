@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -49,6 +50,33 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Customer, Integer> firstLevelDivisionCol;
 
+    //schedule tableview
+    @FXML
+    private TableView<Appointment> scheduletableview;
+
+    //schedule table columns
+    @FXML
+    private TableColumn<Appointment, Integer> apptIdCol;
+    @FXML
+    private TableColumn<Appointment, Integer> contactCol;
+    @FXML
+    private TableColumn<Appointment, String> descriptionCol;
+    @FXML
+    private TableColumn<Appointment, Date> endCol;
+    @FXML
+    private TableColumn<Appointment, String> locationCol;
+    @FXML
+    private TableColumn<Appointment, Integer> scheduleCustIdCol;
+    @FXML
+    private TableColumn<Appointment, Date> startCol;
+    @FXML
+    private TableColumn<Appointment, String> titleCol;
+    @FXML
+    private TableColumn<Appointment, String> typeCol;
+    @FXML
+    private TableColumn<Appointment, Integer> userIdCol;
+
+
     //buttons
     @FXML
     private Button exitbtn;
@@ -58,8 +86,7 @@ public class MainScreenController implements Initializable {
     private Button addUpdateApptBtn;
 
 
-    @FXML
-    private TableView<?> scheduletableview;
+
 
     //takes the user to the customer records page where they can chooose to add, update, or delete a customer
     @FXML
@@ -82,8 +109,25 @@ public class MainScreenController implements Initializable {
         customertableview.setItems(listOfCustomers);
     }
 
-    //takes the user to the main schedule page when the button is clicked
+    //populates the schedule table view with a list of all appointments
+    public void setAllAppointments(ObservableList<Appointment> listOfAppointments){
+        apptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        scheduleCustIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
+        scheduletableview.setItems(listOfAppointments);
+
+
+    }
+
+    //takes the user to the main schedule page when the button is clicked
     @FXML
     void clickAddUpdateAppt(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -111,6 +155,7 @@ public class MainScreenController implements Initializable {
 
         try {
             setAllCustomers(Helper.getAllCustomers());
+            setAllAppointments(Helper.getAllAppointments());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

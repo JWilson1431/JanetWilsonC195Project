@@ -15,7 +15,7 @@
          </font>
       </Label>
       <Label layoutX="96.0" layoutY="97.0" text="Customer ID" />
-      <TextField fx:id="customeridtxt" editable="false" layoutX="192.0" layoutY="93.0" />
+      <TextField fx:id="customeridtxt" editable="false" layoutX="192.0" layoutY="93.0" promptText="Auto Generated" />
       <Label layoutX="96.0" layoutY="151.0" text="Customer Name" />
       <Label layoutX="96.0" layoutY="198.0" text="Address" />
       <Label layoutX="96.0" layoutY="242.0" text="Postal Code" />
