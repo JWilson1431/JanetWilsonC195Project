@@ -84,6 +84,8 @@ public class MainScreenController implements Initializable {
     private Button addupdatecustomerbtn;
     @FXML
     private Button addUpdateApptBtn;
+    @FXML
+    private Button reportsBtn;
 
 
 
@@ -134,6 +136,16 @@ public class MainScreenController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+
+    //takes the user to the reports page when reports button is clicked
+    @FXML
+    void clickReportsBtn(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/reportsPage.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
     }
 
     //exits the application when the exit button is clicked

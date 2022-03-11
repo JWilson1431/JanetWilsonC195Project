@@ -41,11 +41,12 @@
       </TableView>
       <Button fx:id="addupdatecustomerbtn" layoutX="277.0" layoutY="280.0" mnemonicParsing="false" onAction="#clickaddupdatecustbtn" text="Add or update a customer record" />
       <Button fx:id="addUpdateApptBtn" layoutX="288.0" layoutY="572.0" mnemonicParsing="false" onAction="#clickAddUpdateAppt" text="Add or update an appointment" />
-      <Button fx:id="exitbtn" layoutX="639.0" layoutY="572.0" mnemonicParsing="false" onAction="#onClickExit" text="Exit" />
+      <Button fx:id="exitbtn" layoutX="651.0" layoutY="585.0" mnemonicParsing="false" onAction="#onClickExit" text="Exit" />
       <Label layoutX="35.0" layoutY="322.0" text="Schedule">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="reportsBtn" layoutX="516.0" layoutY="585.0" mnemonicParsing="false" onAction="#clickReportsBtn" text="Go to Reports Page" />
    </children>
 </AnchorPane>

@@ -140,11 +140,12 @@ public class UpdateAppointmentController implements Initializable {
         TypeCombo.setItems(Helper.getAllTypes());
         TypeCombo.getSelectionModel().select(appt1.getType());
         custIdCombo.setItems(Helper.getAllCustomers());
-        custIdCombo.getSelectionModel().select(appt1.getCustomerId());
+        //custIdCombo.getSelectionModel().select(appt1.getCustomerName());
         userIdCombo.setItems(Helper.getAllUsers());
         userIdCombo.getSelectionModel().select(appt1.getUserId());
         contactCombo.setItems(Helper.getAllContacts());
         contactCombo.getSelectionModel().select(appt1.getContactId());
+
        // startTimeCombo.getSelectionModel().select(appt1.getStart());
 
     }

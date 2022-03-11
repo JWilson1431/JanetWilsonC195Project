@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.AlertInterface;
 import model.Appointment;
 import model.Customer;
 
@@ -26,6 +27,9 @@ import java.util.ResourceBundle;
 public class ScheduleMainController implements Initializable {
     Stage stage;
     Parent scene;
+
+    //lambda for alerts if a customer is not selected
+    AlertInterface alert1 = s -> "A " + s + " was not chosen, please select a " + s + " and try again";
 
     //buttons
     @FXML
@@ -85,15 +89,15 @@ public class ScheduleMainController implements Initializable {
     //when delete appointment is clicked, the appointment is deleted after confirmation the user wants to delete
     @FXML
     void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
-        //checks to see if a customer is selected
+        //checks to see if an appointment is selected
         if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Appointment not selected");
-            alert.setContentText("An appointment was not selected, please select an appointment and try again.");
+            alert.setContentText(alert1.getAlert("appointment"));
             alert.showAndWait();
         }
         else{
-            //confirms the user wants to delete the customer
+            //confirms the user wants to delete the appointment
             Appointment apptToDelete = scheduleTableView.getSelectionModel().getSelectedItem();
             int customerToDeleteId = apptToDelete.getAppointmentId();
             int rowsAffected = Helper.deleteAppt(customerToDeleteId);
@@ -103,10 +107,12 @@ public class ScheduleMainController implements Initializable {
 
                 //upon confirmation that the user wants to delete the customer, deletes them
                 if (result.isPresent() && result.get() == ButtonType.OK) {
+                    int apptId = apptToDelete.getAppointmentId();
+                    String type = apptToDelete.getType();
                     allAppts.remove(apptToDelete);
                     Alert alert2 = new Alert(Alert.AlertType.WARNING);
                     alert2.setTitle("Appointment deleted");
-                    alert2.setContentText("Appointment was successfully deleted");
+                    alert2.setContentText("Appointment with ID: " + apptId + " and type: " + type + " was deleted.");
                     alert2.showAndWait();
                 }
 
@@ -131,7 +137,7 @@ public class ScheduleMainController implements Initializable {
         if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Appointment not selected");
-            alert.setContentText("An appointment was not selected, please select an appointment and try again");
+            alert.setContentText(alert1.getAlert("appointment"));
             alert.showAndWait();
         }
         else{

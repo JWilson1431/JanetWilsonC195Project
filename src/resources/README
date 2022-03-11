@@ -1,0 +1,32 @@
+Title: C195 Scheduling Software
+
+Purpose: Follow outlined business requirements while creating a GUI based scheduling desktop application. I will use the provided database to communicate
+with the scheduling software. I will meet all of the requirements outlined in the rubric including but not limited to: adding scheduling functionalities,
+allowing the user to view the schedule in multiple views, providing error checks to ensure that customer appointments do not overlap, allowing the user to
+edit, add and delete both customers and appointments.
+
+Author: Janet Wilson
+
+Email: jwi3390@wgu.edu
+
+Application version: 1
+
+Date: 3/11/22
+
+IDE: Intelli J IDEA Commmunity Edition 2021.1.3 x64
+
+JDK: 11.0.14
+
+SDK: 17.0.2
+
+MySQL Connector driver: mysql-connector-java-8.0.25
+
+To run the Program: The log in screen is the first screen when the application opens. You must log into the application with a valid username
+and password. Next you will be taken to the main screen. From here you can go to the main scheduling page, the main customer records page,
+or the reports page. From the main scheduling page you can push buttons to be taken to an add appointment or update appointment page. You can also
+delete an appointment from the main scheduling page. From the main customer page, you can delete a customer or click buttons to go to the update
+or add customer pages. There are also back to the main page buttons and exit buttons in the application.
+
+Additional report: The additional report on the reports page shows a table view of all appointments searched by user ID. The user can type
+the user ID into the text field and push the search button. Only appointments associated with the searched user ID will appear in the table.
+

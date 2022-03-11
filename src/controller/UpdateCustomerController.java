@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import model.AlertInterface;
 import model.Country;
 import model.Customer;
 import javafx.fxml.FXML;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 public class UpdateCustomerController implements Initializable {
     Stage stage;
     Parent scene;
+
 
 
     @FXML
@@ -106,7 +108,8 @@ public class UpdateCustomerController implements Initializable {
         postaltxt.setText(String.valueOf(customer1.getPostalCode()));
         phonetxt.setText(String.valueOf(customer1.getPhoneNumber()));
         countrycombo.setItems(Helper.getAllCountries());
-        //countrycombo.getSelectionModel().select(customer1.getCountry());
+        //countrycombo.getSelectionModel().select(customer1.getCountry()));
+        //firstlevelcombo.setItems(Helper.getDivision());
 
 
     }

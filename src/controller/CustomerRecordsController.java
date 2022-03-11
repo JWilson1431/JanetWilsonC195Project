@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.AlertInterface;
 import model.Customer;
 
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class CustomerRecordsController implements Initializable {
     Parent scene;
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+
+    //lambda for alerts if a customer is not selected
+    AlertInterface alert1 = s -> "A " + s + " was not chosen, please select a " + s + " and try again";
 
     //buttons
     @FXML
@@ -91,11 +95,13 @@ public class CustomerRecordsController implements Initializable {
     //takes user to the update customer page if they click the update customer button
     @FXML
     void clickupdatecustbtn(ActionEvent event) throws IOException, SQLException {
-        if(customertableview.getSelectionModel().getSelectedItem() == null){
+
+        if(customertableview.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Customer not selected");
-            alert.setContentText("A customer was not selected, please select a customer and try again");
+            alert.setContentText(alert1.getAlert("customer"));
             alert.showAndWait();
+
         }
         else{
             FXMLLoader loader = new FXMLLoader();
@@ -115,24 +121,34 @@ public class CustomerRecordsController implements Initializable {
     @FXML
     void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
         //checks to see if a customer is selected
-        if(customertableview.getSelectionModel().getSelectedItem() == null){
+        Customer customerToDelete = customertableview.getSelectionModel().getSelectedItem();
+        int customerToDeleteId = customerToDelete.getCustomerId();
+        if(!Helper.filterByCustomerId(customerToDeleteId).isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Customer not selected");
-            alert.setContentText("A customer was not selected, please select a customer and try again.");
+            alert.setTitle("Cannot delete customer");
+            alert.setContentText("This customer currently has appointments and cannot be deleted");
             alert.showAndWait();
         }
+
+        else if(customertableview.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Customer not selected");
+            alert.setContentText(alert1.getAlert("customer"));
+            alert.showAndWait();
+        }
+
         else{
             //confirms the user wants to delete the customer
-            Customer customerToDelete = customertableview.getSelectionModel().getSelectedItem();
-            int customerToDeleteId = customerToDelete.getCustomerId();
-            int rowsAffected = Helper.deleteCustomer(customerToDeleteId);
+            Customer customerToDelete1 = customertableview.getSelectionModel().getSelectedItem();
+            int customerToDeleteId1 = customerToDelete.getCustomerId();
+            int rowsAffected = Helper.deleteCustomer(customerToDeleteId1);
             if(rowsAffected > 0) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete this customer, do you want to proceed?");
                     Optional<ButtonType> result = alert.showAndWait();
 
                  //upon confirmation that the user wants to delete the customer, deletes them
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    allCustomers.remove(customerToDelete);
+                    allCustomers.remove(customerToDelete1);
                         Alert alert2 = new Alert(Alert.AlertType.WARNING);
                         alert2.setTitle("Customer deleted");
                         alert2.setContentText("Customer was successfully deleted");
