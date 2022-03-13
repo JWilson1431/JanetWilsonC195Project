@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
@@ -30,15 +31,17 @@
             <TableColumn fx:id="userIdCol" prefWidth="68.800048828125" text="User ID" />
         </columns>
       </TableView>
-      <RadioButton fx:id="viewWeekRbtn" layoutX="76.0" layoutY="422.0" mnemonicParsing="false" onAction="#clickViewWeekRbtn" text="View schedule by week">
+      <RadioButton fx:id="viewWeekRbtn" layoutX="46.0" layoutY="495.0" mnemonicParsing="false" onAction="#clickViewWeekRbtn" text="View schedule by week">
          <toggleGroup>
             <ToggleGroup fx:id="toggle1" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="viewMonthRbtn" layoutX="77.0" layoutY="460.0" mnemonicParsing="false" onAction="#clickViewMonthRbtn" text="View schedule by month" toggleGroup="$toggle1" />
-      <RadioButton fx:id="viewAllApptRbtn" layoutX="76.0" layoutY="383.0" mnemonicParsing="false" selected="true" text="View all appointments" toggleGroup="$toggle1" />
+      <RadioButton fx:id="viewMonthRbtn" layoutX="48.0" layoutY="534.0" mnemonicParsing="false" onAction="#clickViewMonthRbtn" text="View schedule by month" toggleGroup="$toggle1" />
+      <RadioButton fx:id="viewAllApptRbtn" layoutX="46.0" layoutY="460.0" mnemonicParsing="false" onAction="#clickViewAllApptsRbtn" selected="true" text="View all appointments" toggleGroup="$toggle1" />
       <Button fx:id="addApptBtn" layoutX="519.0" layoutY="379.0" mnemonicParsing="false" onAction="#clickAddAppt" text="Add an appointment" />
       <Button fx:id="updateApptBtn" layoutX="519.0" layoutY="427.0" mnemonicParsing="false" onAction="#clickUpdateAppt" text="Update selected appointment" />
       <Button fx:id="deleteApptBtn" layoutX="519.0" layoutY="478.0" mnemonicParsing="false" onAction="#clickDeleteBtn" text="Delete selected appointment" />
       <Button fx:id="backToMainBtn" layoutX="720.0" layoutY="543.0" mnemonicParsing="false" onAction="#clickBackToMain" text="Back to Main Screen" />
+      <DatePicker fx:id="chooseDatePicker" layoutX="48.0" layoutY="405.0" />
+      <Label layoutX="24.0" layoutY="370.0" text="Please choose a date then click the view to filter" />
    </children>
 </AnchorPane>

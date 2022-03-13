@@ -1,5 +1,6 @@
 package controller;
 
+import DAO.DBConnection;
 import DAO.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,10 +17,13 @@ import model.Appointment;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**This is the class for the controller of the reports page. This page gives the user the options to view a report of number of appointments per type and month. It also contains a report that generates a table of all appointments searched by contactID and another report that generates a table of all appointments searched by userID.*/
 public class ReportsPageController implements Initializable {
     Stage stage;
     Parent scene;
@@ -73,6 +77,8 @@ public class ReportsPageController implements Initializable {
     //labels
     @FXML
     private Label typeLbl;
+    @FXML
+    private Label monthReportLbl;
 
     //table view for table filtered by contacts
     @FXML
@@ -185,7 +191,12 @@ public class ReportsPageController implements Initializable {
     }
 
     @FXML
-    void clickMonthSearch(ActionEvent event) {
+    void clickMonthSearch(ActionEvent event) throws SQLException {
+       ObservableList<String> monthlyAppts = FXCollections.observableArrayList();
+       monthlyAppts = Helper.createMonthReport();
+       System.out.println(monthlyAppts);
+
+
 
     }
 
@@ -198,6 +209,8 @@ public class ReportsPageController implements Initializable {
       typeLbl.setText(String.valueOf(getTypes.size()));
 
     }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

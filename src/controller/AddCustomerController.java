@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**This class is the controller for the add customer page. The user can add a new customer on this page.*/
 public class AddCustomerController implements Initializable {
     Stage stage;
     Parent scene;

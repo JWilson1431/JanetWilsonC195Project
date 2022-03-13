@@ -31,6 +31,7 @@ public class Appointment {
         this.contactId = contactId;
     }
 
+
     //Setters and getters created
     public int getAppointmentId() {
         return appointmentId;

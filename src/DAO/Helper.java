@@ -475,6 +475,61 @@ public class Helper {
 
         }
 
+
+        //method to filter appointments by a certain time period
+        public static ObservableList<Appointment> getApptsFilteredMonthWeek(LocalDate start, LocalDate end) throws SQLException {
+
+            ObservableList<Appointment> appts = FXCollections.observableArrayList();
+
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String startString = start.format(formatter);
+            String endString = end.format(formatter);
+
+            String sql = "SELECT * FROM appointments WHERE Start between ? and ?";
+            PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
+            ps.setString(1,startString);
+            ps.setString(2,endString);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int contactId1 = rs.getInt(14);
+                int apptId = rs.getInt(1);
+                String title = rs.getString(2);
+                String description = rs.getString(3);
+                String location = rs.getString(4);
+                String type1 = rs.getString(5);
+                Timestamp start1 = rs.getTimestamp(6);
+                Timestamp end1 = rs.getTimestamp(7);
+                int customerId1 = rs.getInt(12);
+                int userId = rs.getInt(13);
+
+                Appointment appointment1 = new Appointment(apptId,title,description,location,type1,start1,end1,customerId1,userId,contactId1);
+
+                appts.add(appointment1);
+            }return appts;
+        }
+    //method to create a total of appointments per month
+    public static  ObservableList<String> createMonthReport() throws SQLException {
+
+        ObservableList<String> monthAppts = FXCollections.observableArrayList();
+        //ObservableList<String> totals = FXCollections.observableArrayList();
+
+        String sql = "SELECT MONTHNAME(start) AS MONTH, COUNT(Appointment_ID) as TOTAL FROM appointments GROUP BY MONTH";
+        PreparedStatement ps = DBConnection.connection.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            String month = "Month: " + rs.getString("MONTH") + "\n" + " Number of appointments: " + rs.getString("TOTAL") + "\n" + "\n";
+            // Integer total = rs.getInt("TOTAL");
+
+            monthAppts.add(month);
+            // totals.add(String.valueOf(total));
+        } return monthAppts;
+    }
+
     }
 
 

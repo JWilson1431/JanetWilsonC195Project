@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import static DAO.Helper.checkCredentials;
 
+/**This class is the controller for the log in form. This form contains username and password fields to validate a user who is signing into the application.*/
     public class LogInFormController implements Initializable {
         Stage stage;
         Parent scene;

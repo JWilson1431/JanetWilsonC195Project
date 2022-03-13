@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/** This class is the controller for the update customer page. This page is populated with the selected customer's information and the user can change the fields as needed*/
 public class UpdateCustomerController implements Initializable {
     Stage stage;
     Parent scene;
@@ -108,15 +109,13 @@ public class UpdateCustomerController implements Initializable {
         postaltxt.setText(String.valueOf(customer1.getPostalCode()));
         phonetxt.setText(String.valueOf(customer1.getPhoneNumber()));
         countrycombo.setItems(Helper.getAllCountries());
-        //countrycombo.getSelectionModel().select(customer1.getCountry()));
+
+        }
+        //countrycombo.getSelectionModel().select(customer1.getCountry());
         //firstlevelcombo.setItems(Helper.getDivision());
 
 
-    }
 
-    public ObservableList<Country> getAllCountries() {
-        return allCountries;
-    }
 
     @FXML
     void chooseCountry(ActionEvent event) throws SQLException {

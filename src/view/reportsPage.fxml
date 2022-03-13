@@ -17,10 +17,9 @@
          </font>
       </Label>
       <Label layoutX="16.0" layoutY="58.0" text="Search number of appointments by type" />
-      <Label layoutX="373.0" layoutY="58.0" text="Search number of appointments by month" />
+      <Label layoutX="624.0" layoutY="67.0" prefHeight="18.0" prefWidth="249.0" text="Generate number of appointments by month" />
       <Label fx:id="typeLbl" layoutX="77.0" layoutY="130.0" text="Number of appointments" />
-      <Label layoutX="434.0" layoutY="130.0" text="Label" />
-      <TextField fx:id="searchMonthTxt" layoutX="373.0" layoutY="82.0" promptText="enter month" />
+      <Label fx:id="monthReportLbl" layoutX="684.0" layoutY="160.0" text="Label" />
       <TableView fx:id="contactTableview" layoutX="14.0" layoutY="228.0" prefHeight="155.0" prefWidth="580.0">
         <columns>
           <TableColumn fx:id="apptIdCol" prefWidth="113.59998321533203" text="Appointment ID" />
@@ -52,6 +51,6 @@
       <Button fx:id="searchUserBtn" layoutX="535.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickSearchUser" text="Search" />
       <Button fx:id="backToMainBtn" layoutX="794.0" layoutY="577.0" mnemonicParsing="false" onAction="#clickBackToMain" text="Back to Main" />
       <ComboBox fx:id="typeCombo" layoutX="23.0" layoutY="82.0" prefWidth="150.0" />
-      <Button fx:id="monthSearchBtn" layoutX="535.0" layoutY="82.0" mnemonicParsing="false" onAction="#clickMonthSearch" text="Button" />
+      <Button fx:id="monthSearchBtn" layoutX="690.0" layoutY="95.0" mnemonicParsing="false" onAction="#clickMonthSearch" text="Generate Report" />
    </children>
 </AnchorPane>

@@ -19,11 +19,15 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**This is the controller for the main scheduling page. The user can view all appointments, appointments filtered by month, and appointments filtered by week. They can also click buttons to go to the add or update appointment pages.*/
 public class ScheduleMainController implements Initializable {
     Stage stage;
     Parent scene;
@@ -75,11 +79,15 @@ public class ScheduleMainController implements Initializable {
     @FXML
     private RadioButton viewWeekRbtn;
 
+    //datepicker for filtering appointments
+    @FXML
+    private DatePicker chooseDatePicker;
+
     private static ObservableList<Customer> allAppts = FXCollections.observableArrayList();
 
     //when add appointment button is clicked, the user is taken to the add appointment page
     @FXML
-    void clickAddAppt(ActionEvent event) throws IOException {
+    public void clickAddAppt(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/addAppointment.fxml"));
         stage.setScene(new Scene(scene));
@@ -133,7 +141,7 @@ public class ScheduleMainController implements Initializable {
 
     //when update appointment is clicked, the user is taken to the update appointment page
     @FXML
-    void clickUpdateAppt(ActionEvent event) throws IOException, SQLException {
+    public void clickUpdateAppt(ActionEvent event) throws IOException, SQLException {
         if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Appointment not selected");
@@ -153,21 +161,52 @@ public class ScheduleMainController implements Initializable {
             stage.show();
         }
     }
+    //when the view all radiobutton is clicked, all appointments are shown
+    @FXML
+    public void clickViewAllApptsRbtn(ActionEvent event) throws SQLException {
+        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+
+        allAppts = Helper.getAllAppointments();
+        scheduleTableView.setItems(allAppts);
+
+    }
+
 
     //when the view by month radiobutton is chosen, the user is taken to the view by month page
     @FXML
-    void clickViewMonthRbtn(ActionEvent event) {
+    public void clickViewMonthRbtn(ActionEvent event) throws SQLException {
+        ObservableList<Appointment> monthAppts = FXCollections.observableArrayList();
+
+        //sets the date picker date as the start and adds a month for the end
+        LocalDate startDate = chooseDatePicker.getValue();
+        LocalDate endDate = startDate.plusMonths(1);
+
+
+        monthAppts = Helper.getApptsFilteredMonthWeek(startDate, endDate);
+        scheduleTableView.setItems(monthAppts);
+
 
     }
 
     //when the view by week radiobutton is chosen, the user is taken to the view by week page
     @FXML
-    void clickViewWeekRbtn(ActionEvent event) {
+    public void clickViewWeekRbtn(ActionEvent event) throws SQLException {
+        ObservableList<Appointment> weekAppts = FXCollections.observableArrayList();
+
+        //sets the date picker date as the start and adds a week for the end
+        LocalDate startDate = chooseDatePicker.getValue();
+        LocalDate endDate = startDate.plusWeeks(1);
+
+
+        //populate the filtered appointments into the observable list week appointments
+        weekAppts = Helper.getApptsFilteredMonthWeek(startDate, endDate);
+
+        scheduleTableView.setItems(weekAppts);
 
     }
 
     @FXML
-    void clickBackToMain(ActionEvent event) throws IOException {
+    public void clickBackToMain(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -195,6 +234,8 @@ public class ScheduleMainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
         try {
             setAllAppointments(Helper.getAllAppointments());
+            LocalDate now = LocalDate.now();
+            chooseDatePicker.setValue(now);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

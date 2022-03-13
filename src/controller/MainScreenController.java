@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**This class is the controller for the main screen. This screen is the first screen to be displayed upon signing in. The user can go to the main scheduling page, the main customer records page, or the reports page from here.*/
 public class MainScreenController implements Initializable {
     Stage stage;
     Parent scene;

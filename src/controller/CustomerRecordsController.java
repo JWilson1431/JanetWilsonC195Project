@@ -24,12 +24,14 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**This class is the controller for the customer records page. This page contains a tableview of all customer and gives the user options to go to an add or update customer page.*/
 public class CustomerRecordsController implements Initializable {
     Stage stage;
     Parent scene;
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
+    /**This is a lambda which helps the code be more efficient. It provides text for an alert that can be used throughout the page. This is useful because it decreases the amount of redundant code on the page.*/
     //lambda for alerts if a customer is not selected
     AlertInterface alert1 = s -> "A " + s + " was not chosen, please select a " + s + " and try again";
 

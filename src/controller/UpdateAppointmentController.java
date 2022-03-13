@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/**This class is the update appointment controller. It is populated with the information from the selected appointment and details of the appointment can be changed.*/
 public class UpdateAppointmentController implements Initializable {
     Stage stage;
     Parent scene;
