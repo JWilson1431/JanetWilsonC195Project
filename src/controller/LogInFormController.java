@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static DAO.Helper.checkCredentials;
@@ -59,10 +60,11 @@ import static DAO.Helper.checkCredentials;
 
 
 
-
+    /**This is the log in button. Upon clicking it, the username and password is verified and the user is taken to the main screen.
+     * @param event */
         //attempts to log in to the software when user clicks login
         @FXML
-     public void clickLogIn(ActionEvent event) throws SQLException, IOException {
+         public void clickLogIn(ActionEvent event) throws SQLException, IOException {
             String userName = usernametxt.getText();
             String password = passwordtxt.getText();
 
@@ -130,12 +132,24 @@ import static DAO.Helper.checkCredentials;
                 alert.showAndWait();
             }
         }
+
+        /**This is the exit button. Upon clicking it the application is exited.
+         * @param event */
   //exits application if exit is clicked
   @FXML
-  void clickExit(ActionEvent event) {
-      System.exit(0);
+  public void clickExit(ActionEvent event) {
+      //confirms that the user wants to exit the application
+      Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit the application?");
+      Optional<ButtonType> result = alert.showAndWait();
 
+      //upon confirmation, exits the system
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+          System.exit(0);
+      }
   }
+  /**This is the initialize method. It loads the zone id and changes text on this page depending on the users location
+   * @param rb
+   * @param location */
   @Override
         public void initialize(URL location, ResourceBundle rb){
             rb = ResourceBundle.getBundle("resources/Language", Locale.getDefault());

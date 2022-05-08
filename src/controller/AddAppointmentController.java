@@ -62,12 +62,16 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker startDatePicker;
 
+    /**This is a lambda with no parameter. This lambda is helpful because the line about overlapping appointments only needs to be written out once instead of inside each alert*/
+    //lambda with no parameter. This lambda is helpful because the line about overlapping appointments only needs to be written once instead of inside of each alert.
+    DisplayMessage message = () -> "This appointment overlaps another appointment for this customer. Please choose a new time";
 
 
-
+    /**This is the click cancel button. When cancel is clicked, the user is taken back to the main scheduling screen.
+     * @param event */
     //if the user clicks cancel, they are taken back to the main schedule page
     @FXML
-    void clickCancel(ActionEvent event) throws IOException {
+    public void clickCancel(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
         stage.setScene(new Scene(scene));
@@ -75,14 +79,13 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-
+    /**This is the click save button. When the save button is clicked, if an appointment is valid, the appointment is saved to the database.
+     * @param event */
     @FXML
-    void clickSave(ActionEvent event) throws SQLException, IOException {
-
+    public void clickSave(ActionEvent event) throws SQLException, IOException {
 
         ObservableList<Appointment> apptByCustomer = FXCollections.observableArrayList();
 
-        //int apptId = Integer.getInteger(apptIdTxt.getText());
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
@@ -95,22 +98,16 @@ public class AddAppointmentController implements Initializable {
         int userId = userIdCombo.getValue().getUserId();
 
 
-        apptByCustomer = Helper.filterByCustomerId(customerId1);
-        System.out.println(apptByCustomer);
+
 
         //LocalDateTime of appointment being created
         LocalDateTime start1 = LocalDateTime.of(date, start);
         LocalDateTime end1 = LocalDateTime.of(date, end);
 
 
-        //convert start and end time to zoneddatetime
-        ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(start1, Helper.getCurrentUserZoneId());
-        ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(end1, Helper.getCurrentUserZoneId());
 
-        //convert zoneddate time start and end to UTC to put it in the database
-        zonedDateTimeStart = zonedDateTimeStart.withZoneSameInstant(ZoneOffset.UTC);
-        zonedDateTimeEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneOffset.UTC);
 
+        apptByCustomer = Helper.filterByCustomerId(customerId1);
         boolean checkOverlap = false;
         for (Appointment appointment : apptByCustomer) {
 
@@ -125,21 +122,12 @@ public class AddAppointmentController implements Initializable {
                 Timestamp tsEnd = appointment.getEnd();
                 LocalDateTime end2 = tsEnd.toLocalDateTime();
 
-               // ZonedDateTime zonedDateTimeStart2 = ZonedDateTime.of(start2, Helper.getCurrentUserZoneId());
-                //ZonedDateTime zonedDateTimeEnd2 = ZonedDateTime.of(end2, Helper.getCurrentUserZoneId());
-
-               //zonedDateTimeStart2 = zonedDateTimeStart2.withZoneSameInstant(ZoneOffset.UTC);
-               //zonedDateTimeEnd2 = zonedDateTimeEnd2.withZoneSameInstant(ZoneOffset.UTC);
-
-               // System.out.println("zoneddatetimestart = " + zonedDateTimeStart);
-                //System.out.println("zoneddatetimestart2 = " + zonedDateTimeStart2);
-                //System.out.println("zoneddatetimeend = " + zonedDateTimeEnd);
-                //System.out.println("zoneddatetimeend2 = " + zonedDateTimeEnd2);
+                //checks for overlapping appointments
                 if ((start1.isAfter(start2) || start1.isEqual(start2)) && start1.isBefore(end2)) {
                     System.out.println("number 1 issue");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Overlap Error");
-                    alert.setContentText("This appointment overlaps another appointment for this customer. Please choose a new time");
+                    alert.setContentText(message.displayMessage());
                     alert.showAndWait();
                     checkOverlap = true;
                     break;
@@ -148,16 +136,16 @@ public class AddAppointmentController implements Initializable {
                     System.out.println("number 2 issue");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Overlap Error");
-                    alert.setContentText("This appointment overlaps another appointment for this customer. Please choose a new time");
+                    alert.setContentText(message.displayMessage());
                     alert.showAndWait();
                     checkOverlap = true;
                     break;
                 }
-                if ((start1.isBefore(start2) || start2.equals(start1) && (end1.isAfter(end2) || end1.isEqual(end2)))) {
+                if ((start1.isBefore(start2) || start2.equals(start1)) && (end1.isAfter(end2) || end1.isEqual(end2))) {
                     System.out.println("number 3 issue");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Overlap Error");
-                    alert.setContentText("This appointment overlaps another appointment for this customer. Please choose a new time");
+                    alert.setContentText(message.displayMessage());
                     alert.showAndWait();
                     checkOverlap = true;
                     break;
@@ -179,12 +167,31 @@ public class AddAppointmentController implements Initializable {
                     break;
                 }
 
+
             }
 
         }
+        //validates business hours and displays an alert if the appointment is not within business hours
+        if(!Helper.validateBusinessHours(start1,end1,date)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Outside Business Hours");
+            alert.setContentText("Please select an appointment within the business hours of 8 am and 10 pm EST");
+            alert.showAndWait();
 
-                    if (checkOverlap==false){
-                    int rowsAffected = Helper.addAppointment(title, description, location, type, zonedDateTimeStart , zonedDateTimeEnd, customerId1, userId, contactId);
+        }
+        //checks for empty fields
+        if(titleTxt.getText().isEmpty() || descriptionTxt.getText().isEmpty() || locationTxt.getText().isEmpty()  || typeCombo.getValue().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Empty field");
+            alert.setContentText("Fields cannot be empty, please enter a value");
+            alert.showAndWait();
+
+        }
+
+                    //if no overlap and within business hours, the appointment is added
+                    else if (checkOverlap==false && Helper.validateBusinessHours(start1,end1,date)){
+                        System.out.println("start1 " + start1 + "  " + "end1 " + end1);
+                    int rowsAffected = Helper.addAppointment(title, description, location, type, start1 , end1, customerId1, userId, contactId);
 
                     if (rowsAffected > 0) {
                         Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
@@ -192,12 +199,13 @@ public class AddAppointmentController implements Initializable {
                         alert1.setContentText("The appointment was successfully added");
                         alert1.showAndWait();
 
-
+                        //takes the user back to the main scheduling page once the appointment is added
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
                         stage.setScene(new Scene(scene));
                         stage.show();
                     }
+                    //alerts the user if the appointment was not added
                     else{
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Appointment not added");
@@ -210,75 +218,28 @@ public class AddAppointmentController implements Initializable {
 
 
 
-
-
-
-
-
-
-
-       /* //convert start and end time to zoneddatetime
-        ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(start1, Helper.getCurrentUserZoneId());
-        ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(end1, Helper.getCurrentUserZoneId());
-
-        //convert zoneddate time start and end to UTC to put it in the database
-        zonedDateTimeStart = zonedDateTimeStart.withZoneSameInstant(ZoneOffset.UTC);
-        zonedDateTimeEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneOffset.UTC);
-        int rowsAffected = Helper.addAppointment(title,description,location,type,zonedDateTimeStart, zonedDateTimeEnd, customerId, userId,contactId);
-
-        if(start == end){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Appointment start and end time cannot be the same. Please select a different time");
-            alert.showAndWait();
-        }
-
-        else if (start.isAfter(end)){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Start time cannot come after end time. Please select a different time");
-            alert.showAndWait();
-        }
-
-        else if(rowsAffected >0){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Appointment added");
-            alert.setContentText("The appointment was successfully added");
-            alert.showAndWait();
-
-           stage = (Stage)((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("There was a problem with adding the appointment, please try again");
-            alert.showAndWait();
-        }
-
-        */
-
-
-
+    /**This is the initialize method. This method populates the combo boxes for the screen when the page is loaded.
+     * @param rb
+     * @param url */
     @Override
     public void initialize(URL url, ResourceBundle rb){
         try{
+            apptIdTxt.setDisable(true);
             contactCombo.setItems(Helper.getAllContacts());
             typeCombo.setItems(Helper.getAllTypes());
             customerIdCombo.setItems(Helper.getAllCustomers());
             userIdCombo.setItems(Helper.getAllUsers());
 
             //populate times in combo boxes for start and end times
-            LocalTime start = LocalTime.of(8,0);
-            LocalTime end = LocalTime.of(8,30);
+            LocalTime start = LocalTime.of(1,0);
+            LocalTime end = LocalTime.of(1,30);
 
-            while(start.isBefore(LocalTime.of(22,0))){
+
+            while(start.isBefore(LocalTime.of(23,0))){
                 startTimeCombo.getItems().add(start);
                 start = start.plusMinutes(30);
             }
-            while(end.isBefore(LocalTime.of(22,30))){
+            while(end.isBefore(LocalTime.of(23,30))){
                 endTimeCombo.getItems().add(end);
                 end = end.plusMinutes(30);
             }

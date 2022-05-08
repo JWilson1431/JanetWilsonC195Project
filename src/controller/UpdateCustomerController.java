@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.AlertInterface;
 import model.Country;
 import model.Customer;
@@ -58,19 +59,20 @@ public class UpdateCustomerController implements Initializable {
     @FXML
     private Button savebtn;
 
-    ObservableList<Country> allCountries = FXCollections.observableArrayList();
-
+    /**This is the cancel button. Upon clicking, the user is taken back to the main screen.
+     * @param event */
     @FXML
-    void ClickCancel(ActionEvent event) throws IOException {
+   public void ClickCancel(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
         }
-
+   /**This is the save button. Upon clicking the customer is saved if it is a valid customer.
+    * @param event */
     @FXML
-    void clickSave(ActionEvent event) throws SQLException, IOException {
+    public void clickSave(ActionEvent event) throws SQLException, IOException {
         String customerName = custnametxt.getText();
         String address = addresstxt.getText();
         String postalCode = postaltxt.getText();
@@ -101,7 +103,8 @@ public class UpdateCustomerController implements Initializable {
     }
 
 
-
+    /**This is the send customer method. This method populates the update customer page with the information of the selected customer.
+     * @param customer1*/
     public void sendCustomer(Customer customer1) throws SQLException {
         customeridtxt.setText(String.valueOf(customer1.getCustomerId()));
         custnametxt.setText(customer1.getCustomerName());
@@ -109,27 +112,32 @@ public class UpdateCustomerController implements Initializable {
         postaltxt.setText(String.valueOf(customer1.getPostalCode()));
         phonetxt.setText(String.valueOf(customer1.getPhoneNumber()));
         countrycombo.setItems(Helper.getAllCountries());
-
-        }
-        //countrycombo.getSelectionModel().select(customer1.getCountry());
-        //firstlevelcombo.setItems(Helper.getDivision());
-
-
+        FirstLevelDivision division = Helper.getDivisionById(customer1.getDivisionId());
+        firstlevelcombo.setItems(Helper.getDivision(division.getCountryId()));
+        firstlevelcombo.setValue(division);
+        countrycombo.setValue(Helper.getCountryById(division.getCountryId()));
 
 
+    }
+
+    /**This is the choose country combo box. This populates the first level division box with appropriate choices when the country is chosen.
+     * @param event */
     @FXML
-    void chooseCountry(ActionEvent event) throws SQLException {
+    public void chooseCountry(ActionEvent event) throws SQLException {
         firstlevelcombo.getItems().clear();
         int countryId= countrycombo.getSelectionModel().getSelectedItem().getCountryId();
         Helper.getDivision(countryId);
         firstlevelcombo.setItems(Helper.getDivision(countryId));
     }
 
-
+/**This is the initialize method. It initializes the country combo with all of the country choices when the page is loaded.
+ * @param rb
+ * @param url */
 @Override
 public void initialize(URL url, ResourceBundle rb) {
     try{
         countrycombo.setItems(Helper.getAllCountries());
+        customeridtxt.setDisable(true);
 
     }
     catch(SQLException e){

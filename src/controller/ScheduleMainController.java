@@ -85,6 +85,8 @@ public class ScheduleMainController implements Initializable {
 
     private static ObservableList<Customer> allAppts = FXCollections.observableArrayList();
 
+    /**This is the add appointment button. When clicked, it takes the user to the add appointment page.
+     * @param event */
     //when add appointment button is clicked, the user is taken to the add appointment page
     @FXML
     public void clickAddAppt(ActionEvent event) throws IOException {
@@ -93,10 +95,11 @@ public class ScheduleMainController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
+    /**This is the delete button. Upon clicking and confirmation it deletes an appointment.
+     * @param event */
     //when delete appointment is clicked, the appointment is deleted after confirmation the user wants to delete
     @FXML
-    void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
+    public void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
         //checks to see if an appointment is selected
         if(scheduleTableView.getSelectionModel().getSelectedItem() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -137,8 +140,8 @@ public class ScheduleMainController implements Initializable {
 
     }
 
-
-
+    /**This is the update appointment button. Upon clicking, the user is taken to the update appointment page if an appointment is selected.
+     * @param event */
     //when update appointment is clicked, the user is taken to the update appointment page
     @FXML
     public void clickUpdateAppt(ActionEvent event) throws IOException, SQLException {
@@ -161,6 +164,9 @@ public class ScheduleMainController implements Initializable {
             stage.show();
         }
     }
+
+    /**This is the view all appointments radio button. When it is chosen, the table displays all appointments.
+     * @param event */
     //when the view all radiobutton is clicked, all appointments are shown
     @FXML
     public void clickViewAllApptsRbtn(ActionEvent event) throws SQLException {
@@ -168,11 +174,11 @@ public class ScheduleMainController implements Initializable {
 
         allAppts = Helper.getAllAppointments();
         scheduleTableView.setItems(allAppts);
-
     }
 
-
-    //when the view by month radiobutton is chosen, the user is taken to the view by month page
+    /**This is the view month radio button. When it is chosen, it filters the appointment view by month.
+     * @param event */
+    //when the view by month radiobutton is chosen, appointments are shown for a specified month
     @FXML
     public void clickViewMonthRbtn(ActionEvent event) throws SQLException {
         ObservableList<Appointment> monthAppts = FXCollections.observableArrayList();
@@ -187,9 +193,9 @@ public class ScheduleMainController implements Initializable {
 
 
     }
-
-    //when the view by week radiobutton is chosen, the user is taken to the view by week page
-    @FXML
+    /**This is the week view radio button. When it is chosen, appointments for a specified week are shown.
+     * @param event */
+    //when the view by week radiobutton is chosen, appointments are shown for a certain week
     public void clickViewWeekRbtn(ActionEvent event) throws SQLException {
         ObservableList<Appointment> weekAppts = FXCollections.observableArrayList();
 
@@ -205,6 +211,8 @@ public class ScheduleMainController implements Initializable {
 
     }
 
+    /**This is the back to main button. When clicked it takes the user back to the main screen.
+     * @param event */
     @FXML
     public void clickBackToMain(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -214,6 +222,8 @@ public class ScheduleMainController implements Initializable {
 
     }
 
+    /**This is the set all appointments method. It takes in a list of appointments and sets it to the schedule table view.
+     * @param listOfAppointments */
     public void setAllAppointments(ObservableList<Appointment> listOfAppointments) {
         apptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleIdCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -230,6 +240,9 @@ public class ScheduleMainController implements Initializable {
 
     }
 
+    /**This is the initialize method. It sets all appointments and the date picker.
+     * @param rb
+     * @param url */
     @Override
     public void initialize(URL url, ResourceBundle rb){
         try {
@@ -239,7 +252,6 @@ public class ScheduleMainController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 }
 

@@ -28,9 +28,6 @@ public class ReportsPageController implements Initializable {
     Stage stage;
     Parent scene;
 
-    //combo box for types
-    @FXML
-    private ComboBox<String> typeCombo;
 
     //table columns for table filtered by contact
     @FXML
@@ -97,9 +94,15 @@ public class ReportsPageController implements Initializable {
     @FXML
     private TableView<Appointment> userTableview;
 
+    //text area for Month/Type report
+    @FXML
+    private TextArea reportTextArea;
+
+    /**This is the back to main button. Upon clicking it takes the user back to the main screen.
+     * @param event */
     //takes the user back to the main screen when button is clicked
     @FXML
-    void clickBackToMain(ActionEvent event) throws IOException {
+    public void clickBackToMain(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -107,9 +110,11 @@ public class ReportsPageController implements Initializable {
 
     }
 
+    /**This is the search contact button. This button searches appointments by a contact Id when it is clicked.
+     * @param event */
     //When the search button is clicked, the application searches for all appointments with the entered contactID
     @FXML
-    void clickSearchContact(ActionEvent event) throws SQLException {
+   public void clickSearchContact(ActionEvent event) throws SQLException {
         ObservableList<Appointment> apptByContact = FXCollections.observableArrayList();
         int contactId = Integer.parseInt(searchContactTxt.getText());
 
@@ -134,10 +139,11 @@ public class ReportsPageController implements Initializable {
         }
 
 
-
+    /**This is the search user button. When clicked it searches all appointments for appointments with a certain user ID.
+     * @param event */
     //When the search button is clicked, the application searches for all appointments with a matching user ID
     @FXML
-    void clickSearchUser(ActionEvent event) throws SQLException {
+    public void clickSearchUser(ActionEvent event) throws SQLException {
         ObservableList<Appointment> apptByUser = FXCollections.observableArrayList();
         int userId = Integer.parseInt(searchUserTxt.getText());
 
@@ -159,6 +165,8 @@ public class ReportsPageController implements Initializable {
         }
 
     }
+    /**This is the set all contact appointments method. It takes in a list of all appointments with a specific contact and populates this list to a tableview
+     * @param allContactAppts */
     //Populate the table that filters by contactID
     public void setAllContactAppts(ObservableList<Appointment> allContactAppts) {
 
@@ -174,7 +182,8 @@ public class ReportsPageController implements Initializable {
         contactTableview.setItems(allContactAppts);
 
     }
-
+    /**This is the set all user appointments method. It takes in a list of all appointments with a specific user ID and populates the user table with this list
+     * @param allUserAppts */
     //populate the table that filters by userID
     public void setAllUserAppts(ObservableList<Appointment> allUserAppts) {
         //populate the table that contains appointments based on user
@@ -190,39 +199,28 @@ public class ReportsPageController implements Initializable {
 
     }
 
+    /**This is the month and type search button. Upon clicking, it generates a report of appointments based on month and type.
+     * @param event */
     @FXML
-    void clickMonthSearch(ActionEvent event) throws SQLException {
-       ObservableList<String> monthlyAppts = FXCollections.observableArrayList();
-       monthlyAppts = Helper.createMonthReport();
-       System.out.println(monthlyAppts);
-
-
-
-    }
-
-    public void clickSearchTypeBtn(ActionEvent actionEvent) throws SQLException {
-      String chosenType = typeCombo.getSelectionModel().getSelectedItem();
-
-      ObservableList<Appointment> getTypes = FXCollections.observableArrayList();
-      getTypes = Helper.getAllApptsWithType(chosenType);
-
-      typeLbl.setText(String.valueOf(getTypes.size()));
+    public void clickMonthSearch(ActionEvent event) throws SQLException {
+     reportTextArea.setText(Helper.createMonthTypeReport());
 
     }
 
 
 
+
+    /**This is the initialize method. It initializes the all contact and user appointments when the page is loaded.
+     * @param url
+     * @param rb */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             setAllContactAppts(Helper.getAllAppointments());
             setAllUserAppts(Helper.getAllAppointments());
-            typeCombo.setItems(Helper.getAllTypes());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-
-
 }

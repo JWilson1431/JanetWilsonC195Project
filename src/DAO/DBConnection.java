@@ -3,6 +3,7 @@ package DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**This is the Database connection class. It connects to the database.*/
 public class DBConnection {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -14,6 +15,7 @@ public class DBConnection {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**This is the open connection method. This method creates a connection to the database.*/
     public static void openConnection()
     {
         try {
@@ -26,7 +28,7 @@ public class DBConnection {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
+    /**This is the close connection method. It closes the database connection.*/
     public static void closeConnection() {
         try {
             connection.close();

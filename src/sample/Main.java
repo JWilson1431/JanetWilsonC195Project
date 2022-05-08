@@ -24,7 +24,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         DBConnection.openConnection();
-       // Locale.setDefault(new Locale("fr"));
+        //Locale.setDefault(new Locale("fr"));
         ResourceBundle rb = ResourceBundle.getBundle("resources/Language", Locale.getDefault());
 
         if(Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")){
@@ -32,12 +32,7 @@ public class Main extends Application {
         }
         launch(args);
 
-
-
         DBConnection.closeConnection();
-
-
-
 
     }
 }

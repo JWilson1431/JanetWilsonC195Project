@@ -90,16 +90,18 @@ public class MainScreenController implements Initializable {
 
 
 
-
+    /**This is the update customer button. Upon clicking, the user is taken to the customer records page.
+     * @param event */
     //takes the user to the customer records page where they can chooose to add, update, or delete a customer
     @FXML
-    void clickaddupdatecustbtn(ActionEvent event) throws IOException {
+    public void clickaddupdatecustbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/customerRecords.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
+    /**This is the set all customers method. This method takes in a list of customers and populates the customer table with the list.
+     * @param listOfCustomers */
     //populates the customer table view with a list of customers
     public void setAllCustomers(ObservableList<Customer> listOfCustomers){
         customeridcolumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -112,6 +114,8 @@ public class MainScreenController implements Initializable {
         customertableview.setItems(listOfCustomers);
     }
 
+    /**This is the set all appointments method. This method takes in a list of appointments and populates the schedule table with it.
+     * @param listOfAppointments */
     //populates the schedule table view with a list of all appointments
     public void setAllAppointments(ObservableList<Appointment> listOfAppointments){
         apptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -130,28 +134,33 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**This is the add or update appointment button. Upon clicking this button the user is taken to the main scheduling page.
+     * @param event */
     //takes the user to the main schedule page when the button is clicked
     @FXML
-    void clickAddUpdateAppt(ActionEvent event) throws IOException {
+    public void clickAddUpdateAppt(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/scheduleMain.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
+    /**This is the reports button. Upon clicking this button the user is taken to the reports page.
+     * @param event*/
     //takes the user to the reports page when reports button is clicked
     @FXML
-    void clickReportsBtn(ActionEvent event) throws IOException {
+    public void clickReportsBtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/reportsPage.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
     }
-
+    /**This is the exit button. Upon clicking and confirming the application is exited.
+     * @param event*/
     //exits the application when the exit button is clicked
     @FXML
-    void onClickExit(ActionEvent event) {
+    public void onClickExit(ActionEvent event) {
         //confirms that the user wants to exit the application
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit the application?");
         Optional<ButtonType> result = alert.showAndWait();
@@ -162,7 +171,9 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
+    /**This is the initialize method. It loads the set all customers method and the set all appointments method.
+     * @param rb
+     * @param url */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -172,8 +183,6 @@ public class MainScreenController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
     }
     }
 

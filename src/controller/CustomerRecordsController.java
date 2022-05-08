@@ -64,6 +64,8 @@ public class CustomerRecordsController implements Initializable {
     @FXML
     private TableColumn<Customer, Integer> firstleveldivcol;
 
+    /**This is the set all customers method. This method creates an observable list of all customers and populates the customer table view with it.
+     * @param listOfCustomers*/
     //method to populate the customer table with a list of customers
     public void setAllCustomers(ObservableList<Customer> listOfCustomers){
         customeridcol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -76,27 +78,33 @@ public class CustomerRecordsController implements Initializable {
         customertableview.setItems(listOfCustomers);
     }
 
+    /**This is the add customer button. When this button is clicked, the user is taken to the add customer page.
+     * @param event */
     //takes the user to the add customer page if they click the add customer button
     @FXML
-    void clickaddcustomerbtn(ActionEvent event) throws IOException {
+    public void clickaddcustomerbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/addCustomer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
+    /** This is the cancel button. When cancel is clicked, the user is taken back to the main screen
+     * @param event */
     //takes the user back to the main screen if they click the cancel button
     @FXML
-    void clickcancelbtn(ActionEvent event) throws IOException {
+    public void clickcancelbtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
+    /**This is the update customer button. When this button is clicked, the user is taken to the update customer button if a customer is selected.
+     * @param event */
     //takes user to the update customer page if they click the update customer button
     @FXML
-    void clickupdatecustbtn(ActionEvent event) throws IOException, SQLException {
+    public void clickupdatecustbtn(ActionEvent event) throws IOException, SQLException {
 
         if(customertableview.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -119,9 +127,11 @@ public class CustomerRecordsController implements Initializable {
         }
     }
 
+    /**This is the delete customer button. Upon confirmation that the user wants to delete the customer, the customer is deleted.
+     * @param event*/
     //deletes a selected customer upon confirming the user wants to delete it
     @FXML
-    void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
+    public void clickDeleteBtn(ActionEvent event) throws SQLException, IOException {
         //checks to see if a customer is selected
         Customer customerToDelete = customertableview.getSelectionModel().getSelectedItem();
         int customerToDeleteId = customerToDelete.getCustomerId();
@@ -173,7 +183,9 @@ public class CustomerRecordsController implements Initializable {
 
 
 
-
+    /**This is the initialize method. When the page is loaded all customers is initialized to the set all customers method.
+     * @param url
+     * @param rb */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
